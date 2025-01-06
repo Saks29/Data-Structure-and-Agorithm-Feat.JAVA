@@ -1,2 +1,3 @@
 # DSA-Feat.Java💻
-Practised various kind DSA Questions on Leetcode.
+My practised DSA questions from basic to pro in various coding platform including LeetCode , GeekForGeeks , Coding Ninja
+
