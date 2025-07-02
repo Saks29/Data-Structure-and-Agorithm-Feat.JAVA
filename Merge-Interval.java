@@ -1,30 +1,40 @@
 /* Q.Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input. */
-import java.util.*;
+import java.util.Arrays;
 
 class Solution {
     public int[][] merge(int[][] intervals) {
-        // Step 1: Sort intervals by starting time
+        // Step 1: Sort intervals by start time
         Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
 
-        // Step 2: Use a list to store merged intervals
-        List<int[]> mergedList = new ArrayList<>();
+        int row = intervals.length;
+        int[][] temp = new int[row][2]; // Temporary array to hold merged intervals
+        int j = 0; // Index for temp array
 
-        // Step 3: Loop through each interval
-        for (int i = 0; i < intervals.length; i++) {
+        // Step 2: Loop through intervals and merge
+        for (int i = 0; i < row; i++) {
             int start = intervals[i][0];
             int end = intervals[i][1];
 
-            // If list is empty or no overlap, just add it
-            if (mergedList.isEmpty() || mergedList.get(mergedList.size() - 1)[1] < start) {
-                mergedList.add(new int[]{start, end});
-            } else {
-                // Overlap: merge with the last interval
-                mergedList.get(mergedList.size() - 1)[1] =
-                    Math.max(mergedList.get(mergedList.size() - 1)[1], end);
+            // Merge overlapping intervals
+            while (i + 1 < row && intervals[i + 1][0] <= end) {
+                i++;
+                end = Math.max(end, intervals[i][1]);
             }
+
+            // Store merged interval
+            temp[j][0] = start;
+            temp[j][1] = end;
+            j++;
         }
 
-        // Convert list to array and return
-        return mergedList.toArray(new int[mergedList.size()][]);
+        // Step 3: Copy only used rows into result array
+        int[][] result = new int[j][2];
+        for (int i = 0; i < j; i++) {
+            result[i][0] = temp[i][0];
+            result[i][1] = temp[i][1];
+        }
+
+        return result;
     }
 }
+
